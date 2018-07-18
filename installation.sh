@@ -15,7 +15,7 @@ git clone http://Github.com/MStarmans91/WORC ~/Documents/WORC
 
 # Install WORC requirements and package itself
 echo -e "Installing WORC requirements and package itself."
-cd /home/worc/Documents/WORC
+cd ~/Documents/WORC
 pip install -r requirements.txt
 python setup.py install
 
