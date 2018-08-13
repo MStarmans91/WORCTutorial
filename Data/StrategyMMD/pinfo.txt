@@ -1,0 +1,9 @@
+Patient imaginary_label_1 imaginary_label_2
+interobs05 1 0
+interobs06 0 1
+interobs09 1 1
+interobs10 0 0
+interobs11 1 0
+interobs12 0 1
+interobs13 1 1
+interobs15 0 0
