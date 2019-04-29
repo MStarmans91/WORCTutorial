@@ -16,17 +16,24 @@ network.fastr_plugin = 'LinearExecution'
 # You need to change these to your sources: check the FASTR documentation.
 # See the WORC Github Wiki for specifications of the various attributes, such as the ones used below
 
-image_sources = glob.glob(('/home/{}/Documents/Data/STWStrategyMMD/*/image.nii.gz').format(username))
-image_sources = [i.replace(('/home/{}').format(username), 'vfs://home') for i in image_sources]
-image_sources = {os.path.basename(os.path.dirname(i)): i for i in image_sources}
+# image_sources = glob.glob(('/home/{}/Documents/Data/STWStrategyMMD/*/image.nii.gz').format(username))
+# image_sources = [i.replace(('/home/{}').format(username), 'vfs://home') for i in image_sources]
+# image_sources = {os.path.basename(os.path.dirname(i)): i for i in image_sources}
+home = os.path.expanduser('~')
+subject_labels = ['interobs' + num for num in ['05', '06', '08', '09', '10', '11', '12', '13', '15']]
+datafolder = os.path.join(home, 'Documents', 'Data', 'STWStrategyMMD')
+image_sources = {k: r'vfs://home/Documents/Demo/worc/image.nii.gz' for k in subject_labels}
 network.images_train.append(image_sources)
 
-segmentation_sources = glob.glob(('/home/{}/Documents/Data/STWStrategyMMD/*/mask.nii.gz').format(username))
-segmentation_sources = [i.replace(('/home/{}').format(username), 'vfs://home') for i in segmentation_sources]
-segmentation_sources = {os.path.basename(os.path.dirname(i)): i for i in segmentation_sources}
+# segmentation_sources = glob.glob(('/home/{}/Documents/Data/STWStrategyMMD/*/mask.nii.gz').format(username))
+# segmentation_sources = [i.replace(('/home/{}').format(username), 'vfs://home') for i in segmentation_sources]
+# segmentation_sources = {os.path.basename(os.path.dirname(i)): i for i in segmentation_sources}
+segmentation_sources = {k: r'vfs://home/Documents/Demo/worc/seg_laesie_S2_v1.16_Sanne_20181121_0930.nii.gz' for k in subject_labels}
 network.segmentations_train.append(segmentation_sources)
 
-network.labels_train.append('vfs://home/Documents/WORCTutorial/Data/StrategyMMD/pinfo.txt')
+pinfo_file = os.path.join(datafolder, 'pinfo.txt')
+network.labels_train.append(pinfo_file)
+# network.labels_train.append('vfs://home/Documents/WORCTutorial/Data/StrategyMMD/pinfo.txt')
 
 # WORC passes a config.ini file to all nodes which contains all parameters.
 # You can get the default configuration with the defaultconfig function
@@ -37,7 +44,9 @@ config = network.defaultconfig()
 # See the Github Wiki for all available fields and their explanation.
 config['SampleProcessing']['SMOTE'] = 'False'
 config['CrossValidation']['N_iterations'] = '5'
-config['Genetics']['label_names'] = '[imaginary_label_1]'
+config['Genetics']['label_names'] = 'imaginary_label_1'
+config['HyperOptimization']['test_size'] = '0.3'
+network.fastr_plugin = 'LinearExecution'
 
 # Add the configuration to the network.
 network.configs.append(config)
