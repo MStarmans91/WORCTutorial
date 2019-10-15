@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Dataset for testing
+Data/stwstrategyhn1
+*.svg
