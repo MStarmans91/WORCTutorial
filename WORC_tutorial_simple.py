@@ -1,4 +1,4 @@
-from WORC import IntermediateFacade
+from WORC import SimpleWORC
 import os
 
 # These packages are only used in analysing the results
@@ -66,34 +66,32 @@ label_name = 'imaginary_label_1'
 coarse = True
 
 # Give your experiment a name
-experiment_name = 'Example_STWStrategyHN'
+experiment_name = 'Example_STWStrategyHN4'
 
 
 # ---------------------------------------------------------------------------
 # The actual experiment
 # ---------------------------------------------------------------------------
 
-# Create a WORC object
-I = IntermediateFacade(experiment_name)
+# Create a Simple WORC object
+network = SimpleWORC(experiment_name)
 
 # Set the input data according to the variables we defined earlier
-I.images_from_this_directory(imagedatadir,
+network.images_from_this_directory(imagedatadir,
                              image_file_name=image_file_name)
-I.segmentations_from_this_directory(imagedatadir,
+network.segmentations_from_this_directory(imagedatadir,
                                     segmentation_file_name=segmentation_file_name)
-I.labels_from_this_file(label_file)
-I.predict_labels([label_name])
+network.labels_from_this_file(label_file)
+network.predict_labels([label_name])
 
 # Use the standard workflow for binary classification
-I.binary_classification(coarse=coarse)
-
-I.add_evaluation()
+network.binary_classification(coarse=coarse)
 
 # Run the experiment!
-I.execute()
+network.execute()
 
 # NOTE:  Precomputed features can be used instead of images and masks
-# by instead using ``I.features_from_this_directory()`` in a similar fashion.
+# by instead using ``network.features_from_this_directory()`` in a similar fashion.
 
 
 # ---------------------------------------------------------------------------
@@ -149,10 +147,9 @@ for k, v in stats.items():
 # please go to https://worc.readthedocs.io/en/latest/static/user_manual.html
 
 # Some things we would advice to always do:
-#   - Run actual experiments on the full settings (coarse=False)
-coarse = False
-I.binary_classification(coarse=coarse)
+#   - Run actual experiments on the full settings (coarse=False):
+#       coarse = False
+#       network.binary_classification(coarse=coarse)
 
-#   - Add extensive evaluation: I.add_evaluation() before I.execute()
-
-I.add_evaluation()
+#   - Add extensive evaluation: network.add_evaluation() before network.execute():
+#       network.add_evaluation()
