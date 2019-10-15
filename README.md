@@ -8,23 +8,22 @@ This tutorial can be followed in two ways:
 Details on the usage can be found below. The code examples are the same in both
 ways. This repository contains the following tutorials:
 
-1. The "Simple" tutorial: suitable for users new to WORC and mostly interested
-  in using WORC.
+1. The "Simple" tutorial: suitable for users new to WORC and mostly interested in using WORC.
 
-  * Jupyter:
-  * Script: WORC_example_simple.py
+    * Jupyter:
+    * Script: WORC_example_simple.py
 
 2. The "Intermediate" tutorial: still suitable for users new to WORC, but
   contains a bit more detail on how to interact with WORC and does not use a
   facade.
 
-  * Jupyter: WORCTutorialIntermediate.py
-  * Script: WORC_tutorial_intermediate.py
+    * Jupyter: WORCTutorialIntermediate.py
+    * Script: WORC_tutorial_intermediate.py
 
 3. The "Advanced" tutorial: contains more complicated workflows. This is still WIP.
 
-* Jupyter: WORCTutorialAdvanced.py
-* Script: WORC_tutorial_Advanced.py
+    * Jupyter: WORCTutorialAdvanced.py
+    * Script: WORC_tutorial_Advanced.py
 
 Futher documentation can be found on [the WORC readthedocs](https://worc.readthedocs.io/).
 
