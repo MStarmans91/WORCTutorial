@@ -1,3 +1,4 @@
+# impor neccesary packages
 from WORC import SimpleWORC
 import os
 
@@ -15,7 +16,7 @@ from WORC.exampledata.datadownloader import download_HeadAndNeck
 script_path = os.path.dirname(os.path.abspath(__file__))
 
 
-# Tutorial on how to interact with WORC through the facade
+# Tutorial on how to interact with WORC using SimpleWORC
 #
 # ---------------------------------------------------------------------------
 # Input
@@ -25,7 +26,7 @@ script_path = os.path.dirname(os.path.abspath(__file__))
 #   - Segmentations
 #   - Labels
 #
-# In the facade, we assume you have a folder "datadir", in which there is a
+# In SimpleWORC, we assume you have a folder "datadir", in which there is a
 # folder for each patient, where in each folder there is a image.nii.gz and a mask.nii.gz:
 #           Datadir
 #               Patient_001
