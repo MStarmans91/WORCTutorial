@@ -10,14 +10,19 @@ ways. This repository contains the following tutorials:
 
 1. The "Simple" tutorial: suitable for users new to WORC and mostly interested
   in using WORC.
+
   * Jupyter:
   * Script: WORC_example_simple.py
+
 2. The "Intermediate" tutorial: still suitable for users new to WORC, but
   contains a bit more detail on how to interact with WORC and does not use a
   facade.
+
   * Jupyter: WORCTutorialIntermediate.py
   * Script: WORC_tutorial_intermediate.py
+
 3. The "Advanced" tutorial: contains more complicated workflows. This is still WIP.
+
 * Jupyter: WORCTutorialAdvanced.py
 * Script: WORC_tutorial_Advanced.py
 
@@ -34,20 +39,20 @@ the script executable, on Ubuntu, please run the following:
 
 Alternatively, you can use the following commands:
 
-  echo -e "Installing git, pip, build-essential, graphviz, ipython and jupyter notebook requirements."
-  apt-get -y install git python-pip build-essential graphviz ipython jupyter-core
+    echo -e "Installing git, pip, build-essential, graphviz, ipython and jupyter notebook requirements."
+    apt-get -y install git python-pip build-essential graphviz ipython jupyter-core
 
-  pip install jupyter
-  pip install PREDICT
-  pip install WORC
+    pip install jupyter
+    pip install PREDICT
+    pip install WORC
 
 NOTE: Graphviz installation is optional.
 
 ### Windows
 On Windows, please install the required python packages either through pip or conda:
-  pip install jupyter
-  pip install PREDICT
-  pip install WORC
+    pip install jupyter
+    pip install PREDICT
+    pip install WORC
 
 Optionally, you may install [Graphviz](http://www.graphviz.org/).
 
