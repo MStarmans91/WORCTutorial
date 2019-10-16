@@ -9,13 +9,14 @@ Details on the usage can be found below. The code examples are the same in both
 ways. This repository contains the following tutorials:
 
 1. The "Simple" tutorial: suitable for users new to WORC and mostly interested in using WORC.
+   Makes use of SimpleWORC.
 
     * Jupyter:
     * Script: WORC_example_simple.py
 
 2. The "Intermediate" tutorial: still suitable for users new to WORC, but
-  contains a bit more detail on how to interact with WORC and does not use a
-  facade.
+  contains more detail on how to interact directly with WORC and does not use
+  SimpleWORC. This is currently disabled, as it has to be upgraded to WORC3.1.0.
 
     * Jupyter: WORCTutorialIntermediate.py
     * Script: WORC_tutorial_intermediate.py
@@ -56,4 +57,5 @@ On Windows, please install the required python packages either through pip or co
 Optionally, you may install [Graphviz](http://www.graphviz.org/).
 
 ## WIP
+- We are updating the Intermediate Tutorial to be compatible with WORC3.1.0.
 - We are working improving the notebook for Advanced Flows.
