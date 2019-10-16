@@ -11,7 +11,7 @@ pip install jupyter
 
 # Install WORC and PREDICT
 pip install PREDICT
-pip install "WORC=2.1.0_2"
+pip install WORC
 
 # Alternative: Clone WORC repository from Github and install
 # mkdir ~/Documents/Packages
