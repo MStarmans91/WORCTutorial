@@ -69,30 +69,36 @@ coarse = True
 # Give your experiment a name
 experiment_name = 'Example_STWStrategyHN4'
 
+# Instead of the default tempdir, let's but the temporary output in a subfolder
+# in the same folder as this script
+tmpdir = os.path.join(script_path, 'WORC_' + experiment_name)
 
 # ---------------------------------------------------------------------------
 # The actual experiment
 # ---------------------------------------------------------------------------
 
 # Create a Simple WORC object
-network = SimpleWORC(experiment_name)
+experiment = SimpleWORC(experiment_name)
 
 # Set the input data according to the variables we defined earlier
-network.images_from_this_directory(imagedatadir,
-                             image_file_name=image_file_name)
-network.segmentations_from_this_directory(imagedatadir,
-                                    segmentation_file_name=segmentation_file_name)
-network.labels_from_this_file(label_file)
-network.predict_labels([label_name])
+experiment.images_from_this_directory(imagedatadir,
+                                      image_file_name=image_file_name)
+experiment.segmentations_from_this_directory(imagedatadir,
+                                             segmentation_file_name=segmentation_file_name)
+experiment.labels_from_this_file(label_file)
+experiment.predict_labels([label_name])
 
 # Use the standard workflow for binary classification
-network.binary_classification(coarse=coarse)
+experiment.binary_classification(coarse=coarse)
+
+# Set the temporary directory
+experiment.set_tmpdir(tmpdir)
 
 # Run the experiment!
-network.execute()
+experiment.execute()
 
 # NOTE:  Precomputed features can be used instead of images and masks
-# by instead using ``network.features_from_this_directory()`` in a similar fashion.
+# by instead using ``experiment.features_from_this_directory()`` in a similar fashion.
 
 
 # ---------------------------------------------------------------------------
@@ -106,7 +112,7 @@ network.execute()
 
 # Locate output folder
 outputfolder = fastr.config.mounts['output']
-experiment_folder = os.path.join(outputfolder, experiment_name)
+experiment_folder = os.path.join(outputfolder, 'WORC_' + experiment_name)
 
 print(f"Your output is stored in {experiment_folder}.")
 
@@ -150,7 +156,12 @@ for k, v in stats.items():
 # Some things we would advice to always do:
 #   - Run actual experiments on the full settings (coarse=False):
 #       coarse = False
-#       network.binary_classification(coarse=coarse)
-
-#   - Add extensive evaluation: network.add_evaluation() before network.execute():
-#       network.add_evaluation()
+#       experiment.binary_classification(coarse=coarse)
+#   Note: this will result in more computation time. We therefore recommmend
+#   to run this script on either a cluster or high performance PC. If so,
+#   you may change the execution to use multiple cores to speed up computation
+#   just before before experiment.execute():
+#       experiment.set_multicore_execution()
+#
+#   - Add extensive evaluation: experiment.add_evaluation() before experiment.execute():
+#       experiment.add_evaluation()
