@@ -1,4 +1,6 @@
-# impor neccesary packages
+# Tutorial on how to interact with WORC using SimpleWORC
+
+# Import neccesary packages
 from WORC import SimpleWORC
 import os
 
@@ -16,8 +18,6 @@ from WORC.exampledata.datadownloader import download_HeadAndNeck
 script_path = os.path.dirname(os.path.abspath(__file__))
 
 
-# Tutorial on how to interact with WORC using SimpleWORC
-#
 # ---------------------------------------------------------------------------
 # Input
 # ---------------------------------------------------------------------------
@@ -67,7 +67,7 @@ label_name = 'imaginary_label_1'
 coarse = True
 
 # Give your experiment a name
-experiment_name = 'Example_STWStrategyHN4'
+experiment_name = 'Example_STWStrategyHN'
 
 # Instead of the default tempdir, let's but the temporary output in a subfolder
 # in the same folder as this script
@@ -98,7 +98,7 @@ experiment.set_tmpdir(tmpdir)
 experiment.execute()
 
 # NOTE:  Precomputed features can be used instead of images and masks
-# by instead using ``experiment.features_from_this_directory()`` in a similar fashion.
+# by instead using ``experiment.features_from_this_directory(featuresdatadir)`` in a similar fashion.
 
 
 # ---------------------------------------------------------------------------

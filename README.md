@@ -11,24 +11,26 @@ ways. This repository contains the following tutorials:
 1. The "Simple" tutorial: suitable for users new to WORC and mostly interested in using WORC.
    Makes use of SimpleWORC.
 
-    * Jupyter:
+    * Jupyter: WORCTutorialSimple.ipynb
     * Script: WORC_example_simple.py
 
 2. The "Intermediate" tutorial: still suitable for users new to WORC, but
   contains more detail on how to interact directly with WORC and does not use
   SimpleWORC. This is currently disabled, as it has to be upgraded to WORC3.1.0.
 
-    * Jupyter: WORCTutorialIntermediate.py
-    * Script: WORC_tutorial_intermediate.py
-
 3. The "Advanced" tutorial: contains more complicated workflows. This is still WIP.
-
-    * Jupyter: WORCTutorialAdvanced.py
-    * Script: WORC_tutorial_Advanced.py
 
 Futher documentation can be found on [the WORC readthedocs](https://worc.readthedocs.io/).
 
 ## Installation
+
+### Windows
+On Windows, please install the required python packages either through pip or conda:
+    pip install jupyter
+    pip install PREDICT
+    pip install WORC
+
+Optionally, you may install [Graphviz](http://www.graphviz.org/).
 
 ### Ubuntu
 Installation of all requirements for this tutorial can be done through the
@@ -48,13 +50,11 @@ Alternatively, you can use the following commands:
 
 NOTE: Graphviz installation is optional.
 
-### Windows
-On Windows, please install the required python packages either through pip or conda:
-    pip install jupyter
-    pip install PREDICT
-    pip install WORC
+## No Installation: Google Colab
 
-Optionally, you may install [Graphviz](http://www.graphviz.org/).
+If you want to actively use WORC, we advice you to install it locally. However,
+for a quick test demonstration without installation, you can use [Google Colab](https://colab.research.google.com/).
+Just launch the relevant Jupyter notebook from this repository and uncomment the relevant lines.
 
 ## WIP
 - We are updating the Intermediate Tutorial to be compatible with WORC3.1.0.
