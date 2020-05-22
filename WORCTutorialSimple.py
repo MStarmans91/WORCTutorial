@@ -1,6 +1,13 @@
-# Tutorial on how to interact with WORC using SimpleWORC
+# Welcome to the tutorial of WORC: a Workflow for Optimal Radiomics
+# Classification! It will provide you with basis knowledge and practical
+# skills on how to run the WORC. For advanced topics and WORCflows, please see
+# the other notebooks provided with this tutorial. For installation details,
+# see the ReadMe.md provided with this tutorial.
 
-# Import neccesary packages
+# This tutorial interacts with WORC through SimpleWORC and is especially
+# suitable for first time usage.
+
+# import neccesary packages
 from WORC import SimpleWORC
 import os
 
@@ -121,11 +128,17 @@ print(f"Your output is stored in {experiment_folder}.")
 feature_files = glob.glob(os.path.join(experiment_folder,
                                        'Features',
                                        'features_*.hdf5'))
+if len(feature_files) == 0:
+    raise ValueError('No feature files found: your network has failed.')
+
 featurefile_p1 = feature_files[0]
 features_p1 = pd.read_hdf(featurefile_p1)
 
 # Read the overall peformance
 performance_file = os.path.join(experiment_folder, 'performance_all_0.json')
+if not os.path.exists(performance_file):
+    raise ValueError('No performance file found: your network has failed.')
+
 with open(performance_file, 'r') as fp:
     performance = json.load(fp)
 
@@ -137,7 +150,6 @@ for v, l in zip(features_p1.feature_values, features_p1.feature_labels):
 # Print the output performance
 print("\n Performance:")
 stats = performance['Statistics']
-del stats['Percentages']  # Omitted for brevity
 for k, v in stats.items():
     print(f"\t {k} {v}.")
 
