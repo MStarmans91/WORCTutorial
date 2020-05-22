@@ -25,8 +25,6 @@ from WORC.exampledata.datadownloader import download_HeadAndNeck
 script_path = os.path.dirname(os.path.abspath(__file__))
 
 
-# Tutorial on how to interact with WORC using SimpleWORC
-#
 # ---------------------------------------------------------------------------
 # Input
 # ---------------------------------------------------------------------------
@@ -107,7 +105,7 @@ experiment.set_tmpdir(tmpdir)
 experiment.execute()
 
 # NOTE:  Precomputed features can be used instead of images and masks
-# by instead using ``experiment.features_from_this_directory()`` in a similar fashion.
+# by instead using ``experiment.features_from_this_directory(featuresdatadir)`` in a similar fashion.
 
 
 # ---------------------------------------------------------------------------
