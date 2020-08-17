@@ -56,7 +56,7 @@ def main():
 
     nsubjects = 20  # use "all" to download all patients
     data_path = os.path.join(script_path, 'Data')
-    # download_HeadAndNeck(datafolder=data_path, nsubjects=nsubjects)
+    download_HeadAndNeck(datafolder=data_path, nsubjects=nsubjects)
 
     # Identify our data structure: change the fields below accordingly
     # if you use your own data.
@@ -76,7 +76,7 @@ def main():
     coarse = True
 
     # Give your experiment a name
-    experiment_name = 'Example_STWStrategyHN_WORC332_200814'
+    experiment_name = 'Example_STWStrategyHN'
 
     # Instead of the default tempdir, let's but the temporary output in a subfolder
     # in the same folder as this script
@@ -104,11 +104,6 @@ def main():
     experiment.set_tmpdir(tmpdir)
 
     # Run the experiment!
-    # experiment.add_evaluation()
-    experiment.set_multicore_execution()
-
-    # experiment.add_config_overrides({'General': {'FeatureCalculators': '[predict/CalcFeatures:1.0, pyradiomics/Pyradiomics:1.0]'}})
-    experiment.add_config_overrides({'Preprocessing': {'Resampling': 'True', 'Resampling_spacing': '1, 1, 1'}})
     experiment.execute()
 
     # NOTE:  Precomputed features can be used instead of images and masks
