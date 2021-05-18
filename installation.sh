@@ -7,10 +7,11 @@
 # Install requirements: git, cmake, build-essential
 echo -e "Installing git, pip, build-essential, graphviz, ipython and jupyter notebook requirements."
 apt-get -y install git python-pip build-essential graphviz ipython jupyter-core
+
+# Install jupyter when using the notebook
 pip install jupyter
 
-# Install WORC and PREDICT
-pip install PREDICT
+# Install WORC
 pip install WORC
 
 # Alternative: Clone WORC repository from Github and install
