@@ -24,6 +24,9 @@ from WORC.exampledata.datadownloader import download_HeadAndNeck
 # Define the folder this script is in, so we can easily find the example data
 script_path = os.path.dirname(os.path.abspath(__file__))
 
+# Determine whether you would like to use WORC for classification or regression
+modus = 'classification'
+
 
 def main():
     """Execute WORC Tutorial experiment."""
@@ -69,7 +72,13 @@ def main():
     label_file = os.path.join(data_path, 'Examplefiles', 'pinfo_HN.csv')
 
     # Name of the label you want to predict
-    label_name = 'imaginary_label_1'
+    if modus == 'classification':
+        # Classification: predict a binary (0 or 1) label
+        label_name = 'imaginary_label_1'
+
+    elif modus == 'regression':
+        # Regression: predict a continuous label
+        label_name = 'Age'
 
     # Determine whether we want to do a coarse quick experiment, or a full lengthy
     # one. Again, change this accordingly if you use your own data.
@@ -97,8 +106,11 @@ def main():
     experiment.labels_from_this_file(label_file)
     experiment.predict_labels([label_name])
 
-    # Use the standard workflow for binary classification
-    experiment.binary_classification(coarse=coarse)
+    # Use the standard workflow for binary classification or regression
+    if modus == 'classification':
+        experiment.binary_classification(coarse=coarse)
+    elif modus == 'regression':
+        experiment.regression(coarse=coarse)
 
     # Set the temporary directory
     experiment.set_tmpdir(tmpdir)
@@ -129,9 +141,11 @@ def main():
     feature_files = glob.glob(os.path.join(experiment_folder,
                                            'Features',
                                            'features_*.hdf5'))
+
     if len(feature_files) == 0:
         raise ValueError('No feature files found: your network has failed.')
 
+    feature_files.sort()
     featurefile_p1 = feature_files[0]
     features_p1 = pd.read_hdf(featurefile_p1)
 
@@ -144,7 +158,7 @@ def main():
         performance = json.load(fp)
 
     # Print the feature values and names
-    print("Feature values:")
+    print("Feature values from first patient:")
     for v, l in zip(features_p1.feature_values, features_p1.feature_labels):
         print(f"\t {l} : {v}.")
 
