@@ -24,8 +24,9 @@ from WORC.exampledata.datadownloader import download_HeadAndNeck
 # Define the folder this script is in, so we can easily find the example data
 script_path = os.path.dirname(os.path.abspath(__file__))
 
-# Determine whether you would like to use WORC for classification or regression
-modus = 'classification'
+# Determine whether you would like to use WORC for binary_classification,
+# multiclass_classification or regression
+modus = 'binary_classification'
 
 
 def main():
@@ -72,13 +73,17 @@ def main():
     label_file = os.path.join(data_path, 'Examplefiles', 'pinfo_HN.csv')
 
     # Name of the label you want to predict
-    if modus == 'classification':
+    if modus == 'binary_classification':
         # Classification: predict a binary (0 or 1) label
-        label_name = 'imaginary_label_1'
+        label_name = ['imaginary_label_1']
 
     elif modus == 'regression':
         # Regression: predict a continuous label
-        label_name = 'Age'
+        label_name = ['Age']
+
+    elif modus == 'multiclass_classification':
+        # Multiclass classification: predict several mutually exclusive binaru labels together
+        label_name = ['imaginary_label_1', 'complement_label_1']
 
     # Determine whether we want to do a coarse quick experiment, or a full lengthy
     # one. Again, change this accordingly if you use your own data.
@@ -104,16 +109,20 @@ def main():
     experiment.segmentations_from_this_directory(imagedatadir,
                                                  segmentation_file_name=segmentation_file_name)
     experiment.labels_from_this_file(label_file)
-    experiment.predict_labels([label_name])
+    experiment.predict_labels(label_name)
 
-    # Use the standard workflow for binary classification or regression
-    if modus == 'classification':
+    # Use the standard workflow for your specific modus
+    if modus == 'binary_classification':
         experiment.binary_classification(coarse=coarse)
     elif modus == 'regression':
         experiment.regression(coarse=coarse)
+    elif modus == 'multiclass_classification':
+        experiment.multiclass_classification(coarse=coarse)
 
     # Set the temporary directory
     experiment.set_tmpdir(tmpdir)
+    experiment.set_multicore_execution()
+    experiment.add_evaluation()
 
     # Run the experiment!
     experiment.execute()
@@ -177,8 +186,11 @@ def main():
     # ---------------------------------------------------------------------------
 
     # For tips and tricks on running a full experiment instead of this simple
-    # example, adding more evaluation options, debuggin a crashed network etcetera,
-    # please go to https://worc.readthedocs.io/en/latest/static/user_manual.html
+    # example, adding more evaluation options, debugging a crashed network etcetera,
+    # please go to https://worc.readthedocs.io/en/latest/static/user_manual.html.
+    # We advice you to look at the docstrings of the SimpleWORC functions
+    # introduced in this tutorial, and explore the other SimpleWORC functions,
+    # as SimpleWORC offers much more functionality than presented here.
 
     # Some things we would advice to always do:
     #   - Run actual experiments on the full settings (coarse=False):
