@@ -60,7 +60,7 @@ def main():
 
     nsubjects = 20  # use "all" to download all patients
     data_path = os.path.join(script_path, 'Data')
-    # download_HeadAndNeck(datafolder=data_path, nsubjects=nsubjects)
+    download_HeadAndNeck(datafolder=data_path, nsubjects=nsubjects)
 
     # Identify our data structure: change the fields below accordingly
     # if you use your own data.
