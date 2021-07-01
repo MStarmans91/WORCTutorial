@@ -60,7 +60,7 @@ def main():
 
     nsubjects = 20  # use "all" to download all patients
     data_path = os.path.join(script_path, 'Data')
-    download_HeadAndNeck(datafolder=data_path, nsubjects=nsubjects)
+    # download_HeadAndNeck(datafolder=data_path, nsubjects=nsubjects)
 
     # Identify our data structure: change the fields below accordingly
     # if you use your own data.
@@ -109,7 +109,7 @@ def main():
     experiment.segmentations_from_this_directory(imagedatadir,
                                                  segmentation_file_name=segmentation_file_name)
     experiment.labels_from_this_file(label_file)
-    experiment.predict_labels([label_name])
+    experiment.predict_labels(label_name)
 
     # Use the standard workflow for your specific modus
     if modus == 'binary_classification':
@@ -121,6 +121,8 @@ def main():
 
     # Set the temporary directory
     experiment.set_tmpdir(tmpdir)
+    experiment.set_multicore_execution()
+    experiment.add_evaluation()
 
     # Run the experiment!
     experiment.execute()
