@@ -1,25 +1,18 @@
 # WORCTutorial
 This is a tutorial for the WORC Package. For more info on WORC, see
 [the WORC readthedocs](https://worc.readthedocs.io/en/latest/static/quick_start.html#installation).
+
 This tutorial can be followed in two ways:
 1. Using [Jupyter notebook](http://jupyter.org/install): see the link for installation and usage details.
+   The notebook can alternatively be loaded directly in [Google Colab](https://colab.research.google.com/).
 2. A .py Python script with comments.
 
 Details on the usage can be found below. The code examples are the same in both
-ways. This repository contains the following tutorials:
-
-1. The "Simple" tutorial: suitable for users new to WORC and mostly interested in using WORC.
-   Makes use of SimpleWORC.
+ways. This repository contains a tutorial suitable for users new to WORC,
+which makes use of the SimpleWORC facade. Two formats are provided:
 
     * Jupyter: WORCTutorialSimple.ipynb
-    * Script: WORC_example_simple.py
-
-2. The "Intermediate" tutorial: still suitable for users new to WORC, but
-  contains more detail on how to interact directly with WORC and does not use
-  BasicWORC. This is still WIP.
-
-3. The "Advanced" tutorial: directly uses WORC and contains more
-  complicated workflows. This is still WIP.
+    * Script: WORCTutorialSimple.py
 
 Futher documentation can be found on [the WORC readthedocs](https://worc.readthedocs.io/).
 
@@ -51,7 +44,6 @@ Alternatively, you can use the following commands:
 NOTE: Graphviz installation is optional.
 
 ## No Installation: Google Colab
-
 If you want to actively use WORC, we advice you to install it locally. However,
 for a quick test demonstration without installation, you can use [Google Colab](https://colab.research.google.com/).
 Just launch the relevant Jupyter notebook from this repository and uncomment the relevant lines.
