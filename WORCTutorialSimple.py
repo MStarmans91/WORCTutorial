@@ -121,8 +121,6 @@ def main():
 
     # Set the temporary directory
     experiment.set_tmpdir(tmpdir)
-    experiment.set_multicore_execution()
-    experiment.add_evaluation()
 
     # Run the experiment!
     experiment.execute()
