@@ -31,6 +31,7 @@ modus = 'binary_classification'
 
 def main():
     """Execute WORC Tutorial experiment."""
+    print(f"Running in folder: {script_path}.")
     # ---------------------------------------------------------------------------
     # Input
     # ---------------------------------------------------------------------------
@@ -95,6 +96,7 @@ def main():
     # Instead of the default tempdir, let's but the temporary output in a subfolder
     # in the same folder as this script
     tmpdir = os.path.join(script_path, 'WORC_' + experiment_name)
+    print(f"Temporary folder: {tmpdir}.")
 
     # ---------------------------------------------------------------------------
     # The actual experiment
