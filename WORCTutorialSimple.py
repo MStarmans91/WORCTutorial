@@ -113,6 +113,11 @@ def main():
     experiment.labels_from_this_file(label_file)
     experiment.predict_labels(label_name)
 
+    # Set the types of images WORC has to process. Used in fingerprinting
+    # Valid quantitative types are ['CT', 'PET', 'Thermography', 'ADC']
+    # Valid qualitative types are ['MRI', 'DWI', 'US']
+    experiment.set_image_types(['CT'])
+
     # Use the standard workflow for your specific modus
     if modus == 'binary_classification':
         experiment.binary_classification(coarse=coarse)
@@ -123,8 +128,6 @@ def main():
 
     # Set the temporary directory
     experiment.set_tmpdir(tmpdir)
-    experiment.set_multicore_execution()
-    experiment.add_evaluation()
 
     # Run the experiment!
     experiment.execute()
