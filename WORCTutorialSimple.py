@@ -31,6 +31,7 @@ modus = 'binary_classification'
 
 def main():
     """Execute WORC Tutorial experiment."""
+    print(f"Running in folder: {script_path}.")
     # ---------------------------------------------------------------------------
     # Input
     # ---------------------------------------------------------------------------
@@ -95,6 +96,7 @@ def main():
     # Instead of the default tempdir, let's but the temporary output in a subfolder
     # in the same folder as this script
     tmpdir = os.path.join(script_path, 'WORC_' + experiment_name)
+    print(f"Temporary folder: {tmpdir}.")
 
     # ---------------------------------------------------------------------------
     # The actual experiment
@@ -110,6 +112,11 @@ def main():
                                                  segmentation_file_name=segmentation_file_name)
     experiment.labels_from_this_file(label_file)
     experiment.predict_labels(label_name)
+
+    # Set the types of images WORC has to process. Used in fingerprinting
+    # Valid quantitative types are ['CT', 'PET', 'Thermography', 'ADC']
+    # Valid qualitative types are ['MRI', 'DWI', 'US']
+    experiment.set_image_types(['CT'])
 
     # Use the standard workflow for your specific modus
     if modus == 'binary_classification':
@@ -159,7 +166,7 @@ def main():
     # Read the overall peformance
     performance_file = os.path.join(experiment_folder, 'performance_all_0.json')
     if not os.path.exists(performance_file):
-        raise ValueError('No performance file found: your network has failed.')
+        raise ValueError(f'No performance file {performance_file} found: your network has failed.')
 
     with open(performance_file, 'r') as fp:
         performance = json.load(fp)
