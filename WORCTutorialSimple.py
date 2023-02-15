@@ -108,10 +108,10 @@ def main():
     # Set the input data according to the variables we defined earlier
     experiment.images_from_this_directory(imagedatadir,
                                           image_file_name=image_file_name,
-                                          training=True)
+                                          is_training=True)
     experiment.segmentations_from_this_directory(imagedatadir,
                                                  segmentation_file_name=segmentation_file_name,
-                                                training=True)
+                                                 is_training=True)
     experiment.labels_from_this_file(label_file)
     experiment.predict_labels(label_name)
 
