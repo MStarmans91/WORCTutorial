@@ -1,18 +1,25 @@
 # WORCTutorial
-This is a tutorial for the WORC Package. For more info on WORC, see
+This repository contains tutorials for the WORC Python package. For more info on WORC, see
 [the WORC readthedocs](https://worc.readthedocs.io/en/latest/static/quick_start.html#installation).
 
-This tutorial can be followed in two ways:
+Most tutorials can be followed in two ways:
 1. Using [Jupyter notebook](http://jupyter.org/install): see the link for installation and usage details.
    The notebook can alternatively be loaded directly in [Google Colab](https://colab.research.google.com/).
 2. A .py Python script with comments.
 
-Details on the usage can be found below. The code examples are the same in both
-ways. This repository contains a tutorial suitable for users new to WORC,
-which makes use of the SimpleWORC facade. Two formats are provided:
+The code examples are the same in both ways. Details on the installation can be found below. 
 
-    * Jupyter: WORCTutorialSimple.ipynb
-    * Script: WORCTutorialSimple.py
+This repository contains the following standard tutorials:
+
+1. WORCTutorialSimple: suitable for people new to WORC. Introduces the SimpleWORC facade, 
+    an easy way to interact with WORC.
+2. WORCTutorialBasic: suitable intermediate WORC uses. Introduces the BasicWORC facade,
+    which extends SimpleWORC with more functionality to directly interact with the WORC object.
+
+We also provide some extra tutorials in the ``Extra_tutorials`` folder on specific functionalities:
+
+* WORCTutorialBasic_OwnFeatures.py: How to use your own features instead of the ones default extracted by WORC.
+    See the [WORC FAQ](https://worc.readthedocs.io/en/development/static/faq.html#can-i-use-my-own-features-instead-of-the-standard-worc-features) for more info.
 
 Futher documentation can be found on [the WORC readthedocs](https://worc.readthedocs.io/).
 

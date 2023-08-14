@@ -165,24 +165,24 @@ def main():
     featurefile_p1 = feature_files[0]
     features_p1 = pd.read_hdf(featurefile_p1)
 
-    # Read the overall peformance
-    performance_file = os.path.join(experiment_folder, 'performance_all_0.json')
-    if not os.path.exists(performance_file):
-        print(f'No performance file {performance_file} found: your network has failed.')
-
-    with open(performance_file, 'r') as fp:
-        performance = json.load(fp)
-
     # Print the feature values and names
     print("Feature values from first patient:")
     for v, l in zip(features_p1.feature_values, features_p1.feature_labels):
         print(f"\t {l} : {v}.")
+        
+    # Read the overall peformance
+    performance_file = os.path.join(experiment_folder, 'performance_all_0.json')
+    if not os.path.exists(performance_file):
+        print(f'No performance file {performance_file} found: your network has failed.')
+    else:
+        with open(performance_file, 'r') as fp:
+            performance = json.load(fp)
 
-    # Print the output performance
-    print("\n Performance:")
-    stats = performance['Statistics']
-    for k, v in stats.items():
-        print(f"\t {k} {v}.")
+        # Print the output performance
+        print("\n Performance:")
+        stats = performance['Statistics']
+        for k, v in stats.items():
+            print(f"\t {k} {v}.")
 
     # NOTE: the performance is probably horrible, which is expected as we ran
     # the experiment on coarse settings. These settings are recommended to only
