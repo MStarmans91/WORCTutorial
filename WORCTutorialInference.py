@@ -1,7 +1,9 @@
-# Using BasicWORC, this tutorials shows how to use your own features. 
-# For more information on how to save your features correctly and 
-# configure WORC for using your own features, see
-# https://worc.readthedocs.io/en/development/static/faq.html#can-i-use-my-own-features-instead-of-the-standard-worc-features.
+# Welcome to the tutorial of WORC: a Workflow for Optimal Radiomics
+# Classification! # This tutorial interacts with WORC through BasicWORC,
+# which is based on SimpleWORC (SimpleWORC is the parent class of BasicWORC)
+# but provides additional functionality. For # first time use, we recommend
+# the WORCTutorialSimple using SimpleWORC, where we also
+# mention tips and tricks also valid for BasicWORC.
 
 # import neccesary packages
 from WORC import BasicWORC
@@ -12,6 +14,10 @@ import pandas as pd
 import json
 import fastr
 import glob
+
+# If you don't want to use your own data, we use the following example set,
+# see also the next code block in this example.
+from WORC.exampledata.datadownloader import download_HeadAndNeck
 
 # Define the folder this script is in, so we can easily find the example data
 script_path = os.path.dirname(os.path.abspath(__file__))
@@ -24,13 +30,27 @@ modus = 'binary_classification'
 def main():
     """Execute WORC Tutorial experiment."""
     print(f"Running in folder: {script_path}.")
+    # ---------------------------------------------------------------------------
+    # Input: Same as the SimpleWORC tutorial
+    # ---------------------------------------------------------------------------
+    
     # -------------------------------------------------------------------------------
-    # This tutorial will first largely follow the same steps as the BasicWORC tutorial.
+    # This part will first largely follow the same steps as the SimpleWORC tutorial.
     # -------------------------------------------------------------------------------
     
+    # Download a subset of 20 patients in this folder. You can change these if you want.
+    nsubjects = 20  # use "all" to download all patients
+    data_path = os.path.join(script_path, 'Data')
+    # download_HeadAndNeck(datafolder=data_path, nsubjects=nsubjects)
+
+    # Identify our data structure: change the fields below accordingly
+    # if you use your own data.
+    imagedatadir = os.path.join(data_path, 'stwstrategyhn1')
+    image_file_name = 'image.nii.gz'
+    segmentation_file_name = 'mask.nii.gz'
+
     # File in which the labels (i.e. outcome you want to predict) is stated
     # Again, change this accordingly if you use your own data.
-    data_path = os.path.join(os.path.dirname(script_path), 'Data')
     label_file = os.path.join(data_path, 'Examplefiles', 'pinfo_HN.csv')
 
     # Name of the label you want to predict
@@ -51,7 +71,7 @@ def main():
     coarse = True
 
     # Give your experiment a name
-    experiment_name = 'Example_STWStrategyHN_BasicWORC_OwnFeatures'
+    experiment_name = 'Example_STWStrategyHN_Inference'
 
     # Instead of the default tempdir, let's but the temporary output in a subfolder
     # in the same folder as this script
@@ -65,29 +85,26 @@ def main():
     # Create a BasicWORC object
     experiment = BasicWORC(experiment_name)
 
-    # Provide feature files to WORC. For this experiment, we demonstrate the the workflow
-    # of not providing images and segmentations but features using the output from the
-    # WORCTutorialBasic.
+    # We could still use the ..._from_this_directory SimpleWORC functions, but for
+    # this tutorial we will instead directly provide the data to BasicWORC ourselves.
+    # To this end, we need to create dictionaties, where the keys will be the sample
+    # names (e.g. patient ID) and the values the filenames. The keys are used
+    # to match segmentations to images, and match the files to the IDs provides in your
+    # label file, so make sure everything corresponds.
     
-    # Locate output folder of previous experiment
-    outputfolder = fastr.config.mounts['output']
-    experiment_folder = os.path.join(outputfolder, 'WORC_Example_STWStrategyHN')
-
-    # find feature files: change accordingly based on your setup
-    features = glob.glob(os.path.join(experiment_folder,
-                                      'Features',
-                                      'features*predict*.hdf5'))
-
-    features = {f"{os.path.basename(featurefile)[-13:-5]}": featurefile for featurefile in features}
+    # Get the image files and convert to dictionary with patient names as keys
+    images = glob.glob(os.path.join(imagedatadir, "*", image_file_name))
+    images = {f"{os.path.basename(os.path.dirname(image))}_0": image for image in images}
     
     # We now append this dictionary to the images_train object. The
-    # features_from_this_directory function from SimpleWORC also appends to this object.
-    experiment.features_train.append(features)
+    # images_from_this_directory function from SimpleWORC also appends to this object.
+    experiment.images_test.append(images)
     
-    # Note: if you provide images, segmentations, and features, WORC will only use the images and 
-    # segmentations in parts of the evaluation setup if you added that. WORC will not extract
-    # new features from the images.
-
+    # We do the same with the segmentations
+    segmentations = glob.glob(os.path.join(imagedatadir, "*", segmentation_file_name))
+    segmentations = {f"{os.path.basename(os.path.dirname(segmentation))}_0": segmentation for segmentation in segmentations} 
+    experiment.segmentations_test.append(segmentations)
+    
     # There are various other objects you can interact with, see https://worc.readthedocs.io/en/latest/static/user_manual.html#attributes-sources
     # for an overview and the function of each attribute.
     
@@ -97,8 +114,16 @@ def main():
     # per image-segmentation set. Except when you want to
     # use special workflows, e.g. use image registration, see the WORC readthedocs.
 
+    # Now, we input the previously trained WORC model. We here assume
+    # that you have previously run the WORCTutorialSimple and use that mode
+    outputfolder = fastr.config.mounts['output']
+    tutorial_experiment_folder = os.path.join(outputfolder, 'WORC_Example_STWStrategyHN_BasicWORC_TrainTest')
+    trained_model = os.path.join(tutorial_experiment_folder, 'estimator_all_0.hdf5')
+    config_file = os.path.join(tutorial_experiment_folder, 'config_CT_0_all_0.ini')
+    experiment.run_inference(trained_model=trained_model, config_files=[config_file])
+    
     # The rest remains the same as in SimpleWORC
-    experiment.labels_from_this_file(label_file)
+    experiment.labels_from_this_file(label_file, is_training=False)
     experiment.predict_labels(label_name)
 
     # Set the types of images WORC has to process. Used in fingerprinting
@@ -119,7 +144,6 @@ def main():
     
     # Run the experiment!
     experiment.set_multicore_execution()
-    experiment.add_evaluation()
     experiment.execute()
 
     # ---------------------------------------------------------------------------
@@ -137,6 +161,19 @@ def main():
 
     print(f"Your output is stored in {experiment_folder}.")
 
+    # Read the features for the first patient
+    # NOTE: we use the glob package for scanning a folder to find specific files
+    feature_files = glob.glob(os.path.join(experiment_folder,
+                                           'Features',
+                                           'features_*.hdf5'))
+
+    if len(feature_files) == 0:
+        print('No feature files found: your network has failed.')
+
+    feature_files.sort()
+    featurefile_p1 = feature_files[0]
+    features_p1 = pd.read_hdf(featurefile_p1)
+
     # Read the overall peformance
     performance_file = os.path.join(experiment_folder, 'performance_all_0.json')
     if not os.path.exists(performance_file):
@@ -144,6 +181,11 @@ def main():
 
     with open(performance_file, 'r') as fp:
         performance = json.load(fp)
+
+    # Print the feature values and names
+    print("Feature values from first patient:")
+    for v, l in zip(features_p1.feature_values, features_p1.feature_labels):
+        print(f"\t {l} : {v}.")
 
     # Print the output performance
     print("\n Performance:")
