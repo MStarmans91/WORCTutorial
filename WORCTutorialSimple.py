@@ -54,7 +54,7 @@ def main():
     #
     # You can skip this part if you use your own data.
     # In the example, We will use open source data from the online XNAT platform
-    # at https://xnat.bmia.nl/data/archive/projects/stwstrategyhn1. This dataset
+    # at https://xnat.health-ri.nl/data/archive/projects/stwstrategyhn1. This dataset
     # consists of CT scans of patients with Head and Neck tumors. We will download
     # a subset of 20 patients in this folder. You can change this settings if you
     # like
@@ -85,7 +85,7 @@ def main():
     elif modus == 'multiclass_classification':
         # Multiclass classification: predict several mutually exclusive binaru labels together
         label_name = ['imaginary_label_1', 'complement_label_1']
-
+    
     # Determine whether we want to do a coarse quick experiment, or a full lengthy
     # one. Again, change this accordingly if you use your own data.
     coarse = True
@@ -127,7 +127,7 @@ def main():
         experiment.regression(coarse=coarse)
     elif modus == 'multiclass_classification':
         experiment.multiclass_classification(coarse=coarse)
-
+    
     # Set the temporary directory
     experiment.set_tmpdir(tmpdir)
     
@@ -159,30 +159,30 @@ def main():
                                            'features_*.hdf5'))
 
     if len(feature_files) == 0:
-        raise ValueError('No feature files found: your network has failed.')
+        print('No feature files found: your network has failed.')
 
     feature_files.sort()
     featurefile_p1 = feature_files[0]
     features_p1 = pd.read_hdf(featurefile_p1)
 
-    # Read the overall peformance
-    performance_file = os.path.join(experiment_folder, 'performance_all_0.json')
-    if not os.path.exists(performance_file):
-        raise ValueError(f'No performance file {performance_file} found: your network has failed.')
-
-    with open(performance_file, 'r') as fp:
-        performance = json.load(fp)
-
     # Print the feature values and names
     print("Feature values from first patient:")
     for v, l in zip(features_p1.feature_values, features_p1.feature_labels):
         print(f"\t {l} : {v}.")
+        
+    # Read the overall peformance
+    performance_file = os.path.join(experiment_folder, 'performance_all_0.json')
+    if not os.path.exists(performance_file):
+        print(f'No performance file {performance_file} found: your network has failed.')
+    else:
+        with open(performance_file, 'r') as fp:
+            performance = json.load(fp)
 
-    # Print the output performance
-    print("\n Performance:")
-    stats = performance['Statistics']
-    for k, v in stats.items():
-        print(f"\t {k} {v}.")
+        # Print the output performance
+        print("\n Performance:")
+        stats = performance['Statistics']
+        for k, v in stats.items():
+            print(f"\t {k} {v}.")
 
     # NOTE: the performance is probably horrible, which is expected as we ran
     # the experiment on coarse settings. These settings are recommended to only

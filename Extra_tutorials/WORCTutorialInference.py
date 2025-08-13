@@ -1,3 +1,5 @@
+# Note: the inference part of WORC and thus this tutorial is still under development
+
 # Welcome to the tutorial of WORC: a Workflow for Optimal Radiomics
 # Classification! # This tutorial interacts with WORC through BasicWORC,
 # which is based on SimpleWORC (SimpleWORC is the parent class of BasicWORC)
@@ -41,7 +43,7 @@ def main():
     # Download a subset of 20 patients in this folder. You can change these if you want.
     nsubjects = 20  # use "all" to download all patients
     data_path = os.path.join(script_path, 'Data')
-    download_HeadAndNeck(datafolder=data_path, nsubjects=nsubjects)
+    # download_HeadAndNeck(datafolder=data_path, nsubjects=nsubjects)
 
     # Identify our data structure: change the fields below accordingly
     # if you use your own data.
@@ -71,7 +73,7 @@ def main():
     coarse = True
 
     # Give your experiment a name
-    experiment_name = 'Example_STWStrategyHN_BasicWORC'
+    experiment_name = 'Example_STWStrategyHN_Inference'
 
     # Instead of the default tempdir, let's but the temporary output in a subfolder
     # in the same folder as this script
@@ -98,12 +100,12 @@ def main():
     
     # We now append this dictionary to the images_train object. The
     # images_from_this_directory function from SimpleWORC also appends to this object.
-    experiment.images_train.append(images)
+    experiment.images_test.append(images)
     
     # We do the same with the segmentations
     segmentations = glob.glob(os.path.join(imagedatadir, "*", segmentation_file_name))
     segmentations = {f"{os.path.basename(os.path.dirname(segmentation))}_0": segmentation for segmentation in segmentations} 
-    experiment.segmentations_train.append(segmentations)
+    experiment.segmentations_test.append(segmentations)
     
     # There are various other objects you can interact with, see https://worc.readthedocs.io/en/latest/static/user_manual.html#attributes-sources
     # for an overview and the function of each attribute.
@@ -114,8 +116,16 @@ def main():
     # per image-segmentation set. Except when you want to
     # use special workflows, e.g. use image registration, see the WORC readthedocs.
 
+    # Now, we input the previously trained WORC model. We here assume
+    # that you have previously run the WORCTutorialSimple and use that mode
+    outputfolder = fastr.config.mounts['output']
+    tutorial_experiment_folder = os.path.join(outputfolder, 'WORC_Example_STWStrategyHN')
+    trained_model = os.path.join(tutorial_experiment_folder, 'estimator_all_0.hdf5')
+    config_file = os.path.join(tutorial_experiment_folder, 'config_CT_0_all_0.ini')
+    experiment.run_inference(trained_model=trained_model, config_files=[config_file])
+    
     # The rest remains the same as in SimpleWORC
-    experiment.labels_from_this_file(label_file)
+    experiment.labels_from_this_file(label_file, is_training=False)
     experiment.predict_labels(label_name)
 
     # Set the types of images WORC has to process. Used in fingerprinting
@@ -135,6 +145,7 @@ def main():
     experiment.set_tmpdir(tmpdir)
     
     # Run the experiment!
+    experiment.set_multicore_execution()
     experiment.execute()
 
     # ---------------------------------------------------------------------------
@@ -187,52 +198,7 @@ def main():
     # NOTE: the performance is probably horrible, which is expected as we ran
     # the experiment on coarse settings. These settings are recommended to only
     # use for testing: see also below.
-
-    # ---------------------------------------------------------------------------
-    # Tips and Tricks
-    # ---------------------------------------------------------------------------
-
-    # For tips and tricks on running a full experiment instead of this simple
-    # example, adding more evaluation options, debugging a crashed network etcetera,
-    # please go to https://worc.readthedocs.io/en/latest/static/user_manual.html or
-    # https://worc.readthedocs.io/en/latest/static/additionalfunctionality.html. If you
-    # run into any issues, check the FAQ at https://worc.readthedocs.io/en/latest/static/faq.html,
-    # make an issue on the WORC Github, or feel free to mail me.
-    #
-    # We advice you to look at the docstrings of the SimpleWORC functions
-    # introduced in this tutorial, and explore the other SimpleWORC functions,
-    # as SimpleWORC offers much more functionality than presented here, see
-    # the documentation: https://worc.readthedocs.io/en/latest/autogen/WORC.facade.html#WORC.facade.simpleworc.SimpleWORC
-
-    # Some things we would advice to always do:
-    #   - Run actual experiments on the full settings (coarse=False):
-
-    #       coarse = False
-    #       experiment.binary_classification(coarse=coarse)
-
-    #       Note: this will result in more computation time. We therefore recommmend
-    #       to run this script on either a cluster or high performance PC. If so,
-    #       you may change the execution to use multiple cores to speed up computation
-    #       just before before experiment.execute():
-    #       experiment.set_multicore_execution()
-    #
-    #   - Add extensive evaluation: experiment.add_evaluation() before experiment.execute():
-    #       experiment.add_evaluation()
-    #
-    #      See the documentation for more details on the evaluation outputs: https://worc.readthedocs.io/en/development/static/user_manual.html#outputs-and-evaluation-of-your-network.
-    #
-    # Changing fields in the configuration (https://worc.readthedocs.io/en/latest/static/configuration.html)
-    # can be done with the add_config_overrides function:
-    #
-    #        overrides = {
-    #            'Classification': {
-    #                'classifiers': 'SVM',
-    #               },
-    #           }
-    #        experiment.add_config_overrides(overrides)
-    #
-    # We recommend doing this after the modus part, as these also perform config_overrides.
-    # NOTE: all configuration fields have to be provided as strings.
+    
 
 if __name__ == '__main__':
     main()
