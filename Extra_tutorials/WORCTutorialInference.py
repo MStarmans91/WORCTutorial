@@ -1,3 +1,5 @@
+# Note: the inference part of WORC and thus this tutorial is still under development
+
 # Welcome to the tutorial of WORC: a Workflow for Optimal Radiomics
 # Classification! # This tutorial interacts with WORC through BasicWORC,
 # which is based on SimpleWORC (SimpleWORC is the parent class of BasicWORC)
@@ -117,7 +119,7 @@ def main():
     # Now, we input the previously trained WORC model. We here assume
     # that you have previously run the WORCTutorialSimple and use that mode
     outputfolder = fastr.config.mounts['output']
-    tutorial_experiment_folder = os.path.join(outputfolder, 'WORC_Example_STWStrategyHN_BasicWORC_TrainTest')
+    tutorial_experiment_folder = os.path.join(outputfolder, 'WORC_Example_STWStrategyHN')
     trained_model = os.path.join(tutorial_experiment_folder, 'estimator_all_0.hdf5')
     config_file = os.path.join(tutorial_experiment_folder, 'config_CT_0_all_0.ini')
     experiment.run_inference(trained_model=trained_model, config_files=[config_file])
